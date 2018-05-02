@@ -20,7 +20,7 @@ public class SaleItem {
     public SaleItem(int quantity, Product p) {        
         this.quantity = quantity;
         this.p = p;
-        this.p.setInventoryQuantity(p.getInventoryQuantity()-1);
+        this.p.setInventoryQuantity(p.getInventoryQuantity()-quantity);
     }
 
     public int getQuantity() {

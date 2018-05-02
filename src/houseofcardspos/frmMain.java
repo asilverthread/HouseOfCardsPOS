@@ -515,6 +515,9 @@ public class frmMain extends javax.swing.JFrame {
                         //They already have it in their cart and they are free to increment the value of that
                         si.setQuantity(si.getQuantity()+quantityToAdd);
                         si.setInventoryQuantity(si.getInventoryQuantity()-quantityToAdd);
+                        
+                        ProductsArray.get(lstProducts.getSelectedIndex()).setInventoryQuantity(si.getInventoryQuantity());
+                        
                         lstSaleItems.setModel(buildSalesListModel(SaleItems));
                         subtotal+=ProductsArray.get(lstProducts.getSelectedIndex()).getPrice().floatValue();
                         lblSubtotal.setText(String.format("%.2f",subtotal));
@@ -565,10 +568,13 @@ public class frmMain extends javax.swing.JFrame {
         }
         int selIndex = lstSaleItems.getSelectedIndex();
     	if ((SaleItems.get(selIndex).getQuantity()>1)&&(quantityToRemove <= SaleItems.get(selIndex).getQuantity())) {
-            SaleItems.get(selIndex).setInventoryQuantity(SaleItems.get(lstSaleItems.getSelectedIndex()).getQuantity()+quantityToRemove);
+            SaleItems.get(selIndex).setInventoryQuantity(SaleItems.get(lstSaleItems.getSelectedIndex()).getInventoryQuantity()+quantityToRemove);
             SaleItems.get(selIndex).setQuantity(SaleItems.get(lstSaleItems.getSelectedIndex()).getQuantity()-quantityToRemove);                
-            updateSelectedInfo();
+    		ProductsArray.get(ProductsArray.indexOf(SaleItems.get(lstSaleItems.getSelectedIndex()).getProduct())).setInventoryQuantity(SaleItems.get(selIndex).getInventoryQuantity());
+
+    		updateSelectedInfo();
     	}else {
+    		ProductsArray.get(ProductsArray.indexOf(SaleItems.get(lstSaleItems.getSelectedIndex()).getProduct())).setInventoryQuantity(SaleItems.get(lstSaleItems.getSelectedIndex()).getQuantity() + ProductsArray.get(ProductsArray.indexOf(SaleItems.get(lstSaleItems.getSelectedIndex()).getProduct())).getInventoryQuantity());
             //SaleItems.get(selIndex).setInventoryQuantity(SaleItems.get(lstSaleItems.getSelectedIndex()).getQuantity()+SaleItems.get(lstSaleItems.getSelectedIndex()).getInventoryQuantity());
             //SaleItems.get(selIndex).setQuantity(0);                
             SaleItems.remove(selIndex);
